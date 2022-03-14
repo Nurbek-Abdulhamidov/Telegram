@@ -2,7 +2,7 @@ import style from "styled-components";
 
 export const Container = style.div`
 position:relative;
-padding:0 20px;
+margin-bottom:15px;
     input {
         border-radius:20px;
         width:100%;
@@ -16,7 +16,7 @@ padding:0 20px;
     i {
         position:absolute;
         top:30%; 
-        left:27%;
+        left:25%;
         color: #8C8C90;
     }
 `;

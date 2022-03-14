@@ -1,18 +1,31 @@
-import * as Style from "./style"
- 
-const Card = ({ item }) => {            
+import NotFound from "../../shared/NotFound/NotFound";
+import * as Style from "./style";
+
+const Card = ({ item, inputText, inputSubText }) => {
+  const filterData = item.filter((el) => {
+    if (inputText === "") {
+      console.log(inputText);
+      return el;
+    } else {
+      return (
+        el.title.toLowerCase().includes(inputText) ||
+        el.desc.toLowerCase().includes(inputSubText)
+      );
+    }
+  });
+
   return (
     <>
-      <div className="container-fluid">
-        <div className="row justify-content-center">
-          {item.map((Val) => {
+      <div>
+        <div>
+          {filterData.map((Val) => {
             return (
-              <Style.Card key={Val.id} >
-                <div className="card-img-top text-center">
+              <Style.Card key={Val.id}>
+                <div>
                   <img src={Val.img} alt={Val.title} className="photo w-75" />
                 </div>
-                <div className="card-body">
-                  <div className="card-title fw-bold fs-4">
+                <div>
+                  <div>
                     {Val.title}
                     {Val.price}
                   </div>
@@ -21,10 +34,13 @@ const Card = ({ item }) => {
               </Style.Card>
             );
           })}
+          <div>
+            {filterData.length === 0 && item !== "" && <NotFound />}
+          </div>
         </div>
       </div>
     </>
   );
 };
- 
+
 export default Card;

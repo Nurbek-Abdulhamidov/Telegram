@@ -4,7 +4,7 @@ export const Container = style.div`
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:20px;
+    padding:20px 20px 0 20px;
 `
 
 export const Edit = style.div`

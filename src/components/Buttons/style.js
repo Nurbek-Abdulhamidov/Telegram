@@ -36,3 +36,18 @@ width:100%;
     }
 
 `;
+
+// export const activeTab = style.button`
+//   background: white;
+//   ${({ active }) =>
+//     activeTab &&
+//     `
+//     border-bottom: 2px solid red;
+//     color:red;
+//   `}
+// `;
+
+// export const activeTab = style.button`
+//     color:red;
+
+// `;
