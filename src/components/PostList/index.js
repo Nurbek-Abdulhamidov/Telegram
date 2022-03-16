@@ -1,31 +1,42 @@
 import * as Style from "./style";
 import Data from "../../Data/Data";
 import Card from "../Card/Card";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Buttons from "../Buttons";
 import SearchPanel from "../SearchPanel";
 import debounce from "lodash.debounce";
+import Fuse from "fuse.js";
 
 const PostList = () => {
   const [item, setItem] = useState(Data);
   const [inputText, setInputText] = useState("");
-  const [inputSubText, setInputSubText] = useState("");
+  const [query, updateQuery] = useState("");
+
+  // Fuzzy function
+  const fuse = new Fuse(item, {
+    keys: ["title", "desc"],
+    includeScore: true,
+  });
+
+  const results = fuse.search(query);
+  const characterResults = query ? results.map((item) => item.item) : item;
 
   let inputHandler = (e) => {
     var lowerCase = e.target.value.toLowerCase();
-    setInputText(lowerCase);
+    updateQuery(lowerCase);
   };
 
-  let inputHandle = (e) => {
-    var lowerCase = e.target.value.toLowerCase();
-    setInputSubText(lowerCase);
-  };
+  function onSearch({ currentTarget }) {
+    updateQuery(currentTarget.value);
+  }
+  console.log(characterResults, "characterLists");
 
+  // Debounce function
   const debouncedResults = useMemo(() => {
-    return debounce(inputHandler, 500);
+    return debounce(inputHandler, 700);
   }, [inputText]);
 
-
+  // Button category
   const menuItems = [...new Set(Data.map((Val) => Val.category))];
   const filterItem = (curcat) => {
     const newItem = Data.filter((newVal) => {
@@ -36,14 +47,22 @@ const PostList = () => {
 
   return (
     <Style.PostContainer>
-      <SearchPanel inputHandler={debouncedResults} inputHandle={inputHandle} />
+      <SearchPanel
+        onSearch={onSearch}
+        query={query}
+        inputHandler={debouncedResults}
+      />
       <Buttons
         menuItems={menuItems}
         filterItem={filterItem}
         setItem={setItem}
       />
       <div>
-        <Card item={item} inputText={inputText} inputSubText={inputSubText} />
+        <Card
+          characterResults={characterResults}
+          item={item}
+          inputText={inputText}
+        />
       </div>
     </Style.PostContainer>
   );

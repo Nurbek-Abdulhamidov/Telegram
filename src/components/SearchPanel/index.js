@@ -1,21 +1,15 @@
-import { useRef } from "react";
 import * as Style from "./style";
 
-const SearchPanel = ({ inputHandler, inputHandle }) => {
-  
-  const focusref = useRef(null);
-
-  const focusOn = () => focusref.current.focus();
-  
+const SearchPanel = ({ query, onSearch, inputHandler }) => {
   return (
     <Style.Container>
       <input
-        ref={focusref}
-        onChange={inputHandler}
-        onInput={inputHandle}
+        // value={query}
+        onInput={ inputHandler}
+        // onChange={onSearch}
         placeholder="Search for messages or users"
       />
-      <i className="fa-solid fa-magnifying-glass" onClick={focusOn}></i>
+      <i className="fa-solid fa-magnifying-glass"></i>
     </Style.Container>
   );
 };
